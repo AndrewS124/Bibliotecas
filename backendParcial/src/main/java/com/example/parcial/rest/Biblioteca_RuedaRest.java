@@ -1,6 +1,7 @@
 package com.example.parcial.rest;
 
 
+import com.example.parcial.Dtos.BibliotecaDTO;
 import com.example.parcial.Modelo.Biblioteca_Rueda;
 import com.example.parcial.service.Bibliioteca_RuedaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,50 +21,38 @@ public class Biblioteca_RuedaRest {
     @Autowired
     private Bibliioteca_RuedaService bibliiotecaRuedaService;
 
-    @CrossOrigin
     @PostMapping
-    public ResponseEntity<Biblioteca_Rueda> createBiblioteca(@RequestBody Biblioteca_Rueda biblioteca) {
-        Biblioteca_Rueda nuevaBiblio = bibliiotecaRuedaService.save(biblioteca);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaBiblio);
+    public ResponseEntity<BibliotecaDTO> createBiblioteca(@RequestBody BibliotecaDTO bibliotecaDTO) {
+        BibliotecaDTO nuevaBibliotecaDTO = bibliiotecaRuedaService.guardarBiblioteca(bibliotecaDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaBibliotecaDTO);
     }
 
-
-    @CrossOrigin
     @GetMapping
-    private ResponseEntity <List<Biblioteca_Rueda>> getAllBiliotecas() {
-        Iterable<Biblioteca_Rueda> bibliotecas = bibliiotecaRuedaService.findAll();
-        List<Biblioteca_Rueda> bibliotecasList = new ArrayList<>();
-
-        bibliotecas.forEach(bibliotecasList::add);
-
-        return ResponseEntity.ok(bibliotecasList);
+    public ResponseEntity<List<BibliotecaDTO>> getAllBibliotecas() {
+        Iterable<BibliotecaDTO> bibliotecasDTO = bibliiotecaRuedaService.listarTodasBibliotecas();
+        List<BibliotecaDTO> bibliotecasDTOList = new ArrayList<>();
+        bibliotecasDTO.forEach(bibliotecasDTOList::add);
+        return ResponseEntity.ok(bibliotecasDTOList);
     }
 
-    @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity<Biblioteca_Rueda> updateBiblioteca(@PathVariable Long id, @RequestBody Biblioteca_Rueda biblio) {
-        Optional<Biblioteca_Rueda> bibliotecaExistente = bibliiotecaRuedaService.findById(id);
-
-        if (!bibliotecaExistente.isPresent()) {
+    public ResponseEntity<BibliotecaDTO> updateBiblioteca(@PathVariable Long id, @RequestBody BibliotecaDTO bibliotecaDTO) {
+        if (!bibliiotecaRuedaService.existeBibliotecaPorId(id)) {
             return ResponseEntity.notFound().build();
         }
 
-        biblio.setId(id);
-        Biblioteca_Rueda bibliotecaActualizada = bibliiotecaRuedaService.save(biblio);
-
-        return ResponseEntity.ok(bibliotecaActualizada);
+        bibliotecaDTO.setId(id);
+        BibliotecaDTO bibliotecaActualizadaDTO = bibliiotecaRuedaService.guardarBiblioteca(bibliotecaDTO);
+        return ResponseEntity.ok(bibliotecaActualizadaDTO);
     }
 
-    @CrossOrigin
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBilioteca(@PathVariable Long id) {
-        Optional<Biblioteca_Rueda> bibliotecaExistente = bibliiotecaRuedaService.findById(id);
-
-        if (bibliotecaExistente.isEmpty()) {
+    public ResponseEntity<Void> deleteBiblioteca(@PathVariable Long id) {
+        if (!bibliiotecaRuedaService.existeBibliotecaPorId(id)) {
             return ResponseEntity.notFound().build();
         }
 
-        bibliiotecaRuedaService.(bibliotecaExistente.get());
+        bibliiotecaRuedaService.eliminarBibliotecaPorId(id);
         return ResponseEntity.noContent().build();
     }
 

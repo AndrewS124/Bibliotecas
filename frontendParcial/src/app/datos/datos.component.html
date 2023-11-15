@@ -2,9 +2,23 @@
 <div class="container">
     <div class="box" id="box">
         <h2>Ingresar Informacion</h2>
-        <form (ngSubmit)="handleLogin()">
-            <input type="text" id="dato" name="dato" placeholder="ingresa el dato" [(ngModel)]="dato">
+        <form (ngSubmit)="agregarLibro()" #libroForm="ngForm">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre del libro" [(ngModel)]="nombre" required>
+            <input type="text" id="autor" name="autor" placeholder="Autor del libro" [(ngModel)]="autor" required>
+            <input type="number" id="idBiblioteca" name="idBiblioteca" placeholder="ID de la biblioteca" [(ngModel)]="idBiblioteca" required>
             <button type="submit">Enviar</button>
         </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="box2" id="box2">
+        <h2>Libros Guardados</h2>
+        <ul>
+            <li *ngFor="let libro of libros">
+                <p>Nombre: {{ libro.nombre }}</p>
+                <p>Autor: {{ libro.autor }}</p>
+            </li>
+        </ul>
     </div>
 </div>

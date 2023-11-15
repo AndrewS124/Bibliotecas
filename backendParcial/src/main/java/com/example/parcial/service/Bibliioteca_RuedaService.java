@@ -4,7 +4,6 @@ package com.example.parcial.service;
 
 import com.example.parcial.Dtos.BibliotecaDTO;
 import com.example.parcial.Modelo.Biblioteca_Rueda;
-import com.example.parcial.Modelo.Libro_Rueda;
 import com.example.parcial.repositories.Biblioteca_RuedaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

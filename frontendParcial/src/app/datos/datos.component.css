@@ -1,3 +1,4 @@
+
 html, body {
     height: 100%;
     margin: 0;
@@ -5,11 +6,20 @@ html, body {
 
 .container {
     display: grid;
-    height: 100vh;
+    height: 200px;
     place-items: center; 
 }
 
+
 .box {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.box2 {
     width: 300px;
     padding: 20px;
     border: 1px solid #ccc;
